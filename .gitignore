@@ -1,0 +1,71 @@
+#=========================================
+#  Gitignore para proyectos .NET / Blazor
+#=========================================
+
+# Build de .NET (bin / obj)
+**/[Bb]in/
+**/[Oo]bj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.sln.docstates
+*.userosscache
+*.vbproj.user
+*.csproj.user
+
+# Paquetes NuGet (si no usas el cache global, o quieres ignorarlo)
+# *.nupkg
+# packages/
+
+# Archivos de configuración locales de VS
+*.launchsettings.json.user
+
+# Carpetas de publicación / despliegue
+Publish/
+PublishOutput/
+wwwroot/build/
+wwwroot/dist/
+
+# Configuraciones de build
+[Dd]ebug/
+[Rr]elease/
+build/
+bld/
+
+# Respaldo de archivos de VS / ReSharper / Rider
+_ReSharper*/
+*.ReSharper
+*.DotSettings.user
+.idea/
+*.sln.iml
+
+# User Secrets (si los has configurado)
+*/secrets.json
+
+# Archivos de logs
+*.log
+logs/
+
+# Archivos de cobertura de tests
+coverage/
+*.lcov
+
+# Archivos temporales del sistema
+Thumbs.db
+Desktop.ini
+*.DS_Store
+
+# Para Blazor WebAssembly Hosted (opcional)
+# Si tu solución tiene proyectos Client, Server, Shared, 
+# se aplicarán igualmente las reglas anteriores a cada proyecto.
+
+# Para proyectos que incluyan Node.js (por ejemplo, si usas npm/webpack/gulp):
+# /node_modules
+# package-lock.json
+# yarn.lock
+
+#=========================================
+#  Fin del gitignore
+#=========================================
