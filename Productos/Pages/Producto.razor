@@ -6,13 +6,9 @@
             <div class="col-md-8 col-sm-12">
                 <div class="card text-center">
                     <div class="card-header">
-                        Featured
+                        Productos
                     </div>
                     <div class="card-body">
-                        <button class="btn btn-primary"
-                            @onclick="@(() => agregar())">
-                            Agregar Producto
-                        </button>
                         <table class="table">
                             <thead>
                                 <tr>
@@ -36,11 +32,40 @@
                                                 @onclick="@(() => editar(@producto))">
                                                 Editar
                                             </button>
+                                            <button class="btn btn-primary"
+                                                    @onclick="@(() => eliminar(@producto))">
+                                                Eliminar
+                                            </button>
                                         </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                <div class="card text-center mt-2">
+                    <div class="card-body">
+                        <EditForm Model="@producto" OnValidSubmit="@GuardarProducto">
+                            <div class="col-auto">
+                                <label for="nombre" class="form-label">Nombre</label>
+                                <InputText type="text" class="form-control" id="nombre" @bind-Value="producto.Nombre" />
+                            </div>
+                            <div class="col-auto">
+                                <label for="tipo" class="form-label">Tipo</label>
+                                <InputText type="text" class="form-control" id="tipo" @bind-Value="producto.Tipo" />
+                            </div>
+                            <div class="col-auto">
+                                <label for="tasaInteres" class="form-label">Tasa Interes</label>
+                                <InputNumber class="form-control" id="tasaInteres" @bind-Value="producto.TasaInteres" />
+                            </div>
+                            <div class="col-auto">
+                                <label for="status" class="form-label">Estado</label>
+                                <InputCheckbox id="status" @bind-Value="producto.Status" />
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary mb-3">Guardar</button>
+                            </div>
+                        </EditForm>
                     </div>
                 </div>
             </div>
@@ -50,6 +75,8 @@
 
 @code {
     private List<Productos.Models.Producto> productos;
+
+    private Productos.Models.Producto producto = new();
 
     protected override void OnInitialized()
     {
@@ -61,14 +88,57 @@
         };
     }
 
-    private void agregar()
+    private void editar(Productos.Models.Producto productoEditar)
     {
-
+        producto = productoEditar;
     }
 
-    private void editar(Productos.Models.Producto producto)
+    private void eliminar(Productos.Models.Producto producto)
     {
-        
+        var productoEliminar = productos.FirstOrDefault(p => p.Id == producto.Id);
+        if(productoEliminar != null)
+        {
+            productos.Remove(productoEliminar);
+        }
+    }
+
+    private void GuardarProducto()
+    {
+        if(producto.Id != 0)
+        {
+            var productoEditar = productos.FirstOrDefault(p => p.Id == producto.Id);
+
+            if(productoEditar != null)
+            {
+                productoEditar.Nombre = producto.Nombre;
+                productoEditar.Tipo = producto.Tipo;
+                productoEditar.TasaInteres = producto.TasaInteres;
+                productoEditar.Status = producto.Status;
+            }
+        } 
+        else
+        {
+            var ultimoProductoSeguro = productos.LastOrDefault();
+            if (ultimoProductoSeguro != null)
+            {
+                producto.Id = ultimoProductoSeguro.Id + 1;
+            }
+            else
+            {
+                producto.Id = 1;
+            }
+
+            productos.Add(new Productos.Models.Producto
+            {
+                Id = producto.Id,
+                Nombre = producto.Nombre,
+                Tipo = producto.Tipo,
+                TasaInteres = producto.TasaInteres,
+                Status = producto.Status,
+            });
+        }
+
+        producto = new();
     }
 
 }
