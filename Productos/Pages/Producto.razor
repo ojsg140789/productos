@@ -1,0 +1,74 @@
+﻿@page "/producto"
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="row justify-content-md-center">
+            <div class="col-md-8 col-sm-12">
+                <div class="card text-center">
+                    <div class="card-header">
+                        Featured
+                    </div>
+                    <div class="card-body">
+                        <button class="btn btn-primary"
+                            @onclick="@(() => agregar())">
+                            Agregar Producto
+                        </button>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Id</th>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Tipo</th>
+                                    <th scope="col">Tasa de interés</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var producto in productos)
+                                {
+                                    <tr>
+                                        <th scope="row">@producto.Id</th>
+                                        <td>@producto.Nombre</td>
+                                        <td>@producto.Tipo</td>
+                                        <td>@producto.TasaInteres</td>
+                                        <td>
+                                            <button class="btn btn-primary" 
+                                                @onclick="@(() => editar(@producto))">
+                                                Editar
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Productos.Models.Producto> productos;
+
+    protected override void OnInitialized()
+    {
+        productos = new List<Productos.Models.Producto>
+        {
+            new Productos.Models.Producto { Id = 1, Nombre = "Crédito Auto", Tipo = "Personal", TasaInteres = 4, Status = true },
+            new Productos.Models.Producto { Id = 2, Nombre = "Crédito Personal", Tipo = "Personal", TasaInteres = 5, Status = true },
+            new Productos.Models.Producto { Id = 3, Nombre = "Crédito Vivienda", Tipo = "Negocio", TasaInteres = 6, Status = false },
+        };
+    }
+
+    private void agregar()
+    {
+
+    }
+
+    private void editar(Productos.Models.Producto producto)
+    {
+        
+    }
+
+}
