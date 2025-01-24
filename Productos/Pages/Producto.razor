@@ -1,4 +1,5 @@
 ﻿@page "/producto"
+@inject Productos.Services.ProductoService productoService
 
 <div class="row">
     <div class="col-md-12">
@@ -80,17 +81,18 @@
 
     protected override void OnInitialized()
     {
-        productos = new List<Productos.Models.Producto>
-        {
-            new Productos.Models.Producto { Id = 1, Nombre = "Crédito Auto", Tipo = "Personal", TasaInteres = 4, Status = true },
-            new Productos.Models.Producto { Id = 2, Nombre = "Crédito Personal", Tipo = "Personal", TasaInteres = 5, Status = true },
-            new Productos.Models.Producto { Id = 3, Nombre = "Crédito Vivienda", Tipo = "Negocio", TasaInteres = 6, Status = false },
-        };
+
+        obtenerProductos();
     }
 
     private void editar(Productos.Models.Producto productoEditar)
     {
         producto = productoEditar;
+    }
+
+    private void obtenerProductos()
+    {
+        productos = productoService.ObtenerProductos().ToList();
     }
 
     private void eliminar(Productos.Models.Producto producto)
@@ -106,39 +108,14 @@
     {
         if(producto.Id != 0)
         {
-            var productoEditar = productos.FirstOrDefault(p => p.Id == producto.Id);
-
-            if(productoEditar != null)
-            {
-                productoEditar.Nombre = producto.Nombre;
-                productoEditar.Tipo = producto.Tipo;
-                productoEditar.TasaInteres = producto.TasaInteres;
-                productoEditar.Status = producto.Status;
-            }
+            productoService.EditarProducto(producto);
         } 
         else
         {
-            var ultimoProductoSeguro = productos.LastOrDefault();
-            if (ultimoProductoSeguro != null)
-            {
-                producto.Id = ultimoProductoSeguro.Id + 1;
-            }
-            else
-            {
-                producto.Id = 1;
-            }
-
-            productos.Add(new Productos.Models.Producto
-            {
-                Id = producto.Id,
-                Nombre = producto.Nombre,
-                Tipo = producto.Tipo,
-                TasaInteres = producto.TasaInteres,
-                Status = producto.Status,
-            });
+            productoService.AgregarProducto(producto);
         }
-
         producto = new();
+        obtenerProductos();
     }
 
 }
