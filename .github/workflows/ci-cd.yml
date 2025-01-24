@@ -18,7 +18,7 @@ jobs:
         uses: actions/setup-dotnet@v2
         with:
           # Asegúrate de que sea la versión que usas en tu proyecto
-          dotnet-version: '8.0.10'
+          dotnet-version: '8.0.x'
 
       - name: Restore dependencies
         run: dotnet restore
