@@ -1,0 +1,33 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1) Descarga tu código fuente
+      - uses: actions/checkout@v2
+
+      # 2) Configura .NET (versión que uses: 6, 7, etc.)
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: "8.0.x"
+
+      # 3) Restaura las dependencias (NuGet)
+      - name: Restore dependencies
+        run: dotnet restore
+
+      # 4) Compila en modo Release (sin restaurar nuevamente)
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      # 5) Ejecuta las pruebas
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
